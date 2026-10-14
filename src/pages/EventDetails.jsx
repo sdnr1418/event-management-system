@@ -1,7 +1,88 @@
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedEvent, setLoading, setError } from "../store/eventsSlice";
+import { fetchEventById } from "../utils/ticketmaster";
+import "./EventDetails.css";
 
 function EventDetails() {
   const { id } = useParams();
-  return <h2>Event Details: {id}</h2>;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const event = useSelector((state) => state.events.selectedEvent);
+  const loading = useSelector((state) => state.events.loading);
+  const error = useSelector((state) => state.events.error);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+
+  const [feedback, setFeedback] = useState("");
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    fetchEventById(id)
+      .then((data) => {
+        dispatch(setSelectedEvent(data));
+        dispatch(setLoading(false));
+      })
+      .catch((err) => dispatch(setError(err.message)));
+  }, [id, dispatch]);
+
+  if (loading) return <div className="status-box">Loading event...</div>;
+  if (error) return <div className="status-box error">Error: {error}</div>;
+  if (!event) return null;
+
+  const image = event.images?.find((img) => img.ratio === "16_9" && img.width > 500)
+    || event.images?.[0];
+  const venue = event._embedded?.venues?.[0];
+  const date = event.dates?.start?.localDate;
+  const time = event.dates?.start?.localTime;
+  const category = event.classifications?.[0]?.segment?.name;
+  const ticketUrl = event.url;
+
+  return (
+    <div className="event-details">
+      <button className="btn-back" onClick={() => navigate("/events")}>
+        ← Back to Events
+      </button>
+
+      {image && <img src={image.url} alt={event.name} style={{ marginTop: 16 }} />}
+
+      <h2>{event.name}</h2>
+
+      {date && <p className="event-info">📅 Date: {date} {time && `at ${time}`}</p>}
+      {venue && (
+        <>
+          <p className="event-info">🏟️ Venue: {venue.name}</p>
+          <p className="event-info">
+            📍 Location: {venue.address?.line1}, {venue.city?.name},{" "}
+            {venue.state?.name}, {venue.country?.name}
+          </p>
+        </>
+      )}
+      {category && <p className="event-info">🎭 Category: {category}</p>}
+
+      {event.info && <p className="event-info" style={{ marginTop: 12 }}>{event.info}</p>}
+
+      <div className="event-actions">
+        {ticketUrl && (
+          <a href={ticketUrl} target="_blank" rel="noreferrer">
+            <button className="btn-register">Buy Tickets</button>
+          </a>
+        )}
+        {!currentUser && (
+          <button className="btn-back" onClick={() => navigate("/login")}>
+            Log in to Register
+          </button>
+        )}
+      </div>
+
+      {feedback && (
+        <p className={`feedback-msg ${feedback.startsWith("❌") ? "error" : ""}`}>
+          {feedback}
+        </p>
+      )}
+    </div>
+  );
 }
+
 export default EventDetails;

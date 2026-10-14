@@ -1,0 +1,51 @@
+.event-details { max-width: 800px; margin: 0 auto; }
+
+.event-details img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.event-details h2 { font-size: 1.8rem; margin-bottom: 12px; }
+
+.event-info { margin: 8px 0; color: #444; font-size: 0.95rem; }
+
+.event-actions { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+.btn-register {
+  padding: 11px 24px;
+  background: #1e7a34;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn-register:hover { background: #155c27; }
+.btn-register:disabled { background: #888; cursor: not-allowed; }
+
+.btn-cancel {
+  padding: 11px 24px;
+  background: #b42318;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn-cancel:hover { background: #8a1a11; }
+
+.btn-back {
+  padding: 11px 24px;
+  background: #eee;
+  color: #222;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.feedback-msg { margin-top: 12px; color: #1e7a34; font-weight: 500; }
+.feedback-msg.error { color: #b42318; }
