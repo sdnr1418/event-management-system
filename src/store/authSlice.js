@@ -1,10 +1,11 @@
+import { loadFromStorage } from "../utils/storage";
 import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    users: [],          // all "registered accounts" (frontend simulation)
-    currentUser: null,  // logged-in user: { name, email }
+    users: loadFromStorage("users", []),
+    currentUser: loadFromStorage("currentUser", null),
     error: null,
   },
   reducers: {

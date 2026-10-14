@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Events from "./pages/Events";
@@ -8,6 +10,17 @@ import MyEvents from "./pages/MyEvents";
 import NotFound from "./pages/NotFound";
 
 function App() {
+  const users = useSelector((state) => state.auth.users);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+
+  useEffect(() => {
+    localStorage.setItem("users", JSON.stringify(users));
+  }, [users]);
+
+  useEffect(() => {
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }, [currentUser]);
+
   return (
     <BrowserRouter>
       <Layout>
