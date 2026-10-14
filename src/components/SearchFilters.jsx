@@ -44,8 +44,11 @@ function SearchFilters() {
       />
       <select value={category} onChange={(e) => setCategory(e.target.value)}>
         <option value="">All Categories</option>
-        {categories.map((cat) => (
-          <option key={cat.id} value={cat.segment?.name}>
+        {categories.map((cat, index) => (
+          <option
+            key={`${cat.id ?? cat.segment?.id ?? cat.segment?.name ?? "category"}-${index}`}
+            value={cat.segment?.name}
+          >
             {cat.segment?.name}
           </option>
         ))}

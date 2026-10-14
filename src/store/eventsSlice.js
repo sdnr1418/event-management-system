@@ -20,6 +20,7 @@ const eventsSlice = createSlice({
       state.totalPages = action.payload.totalPages;
       state.currentPage = action.payload.currentPage;
       state.error = null;
+      state.loading = false;
     },
     setSelectedEvent: (state, action) => {
       state.selectedEvent = action.payload;
