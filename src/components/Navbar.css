@@ -11,3 +11,14 @@
 .logo { font-size: 1.3rem; font-weight: bold; }
 .nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
 .nav-links a:hover { text-decoration: underline; }
+.nav-links { align-items: center; }
+.nav-user { opacity: 0.8; }
+.logout-btn {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.logout-btn:hover { background: rgba(255, 255, 255, 0.15); }
