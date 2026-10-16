@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   const users = useSelector((state) => state.auth.users);
   const currentUser = useSelector((state) => state.auth.currentUser);
+  const registrations = useSelector((state) => state.registrations);
 
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
@@ -21,6 +22,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
   }, [currentUser]);
+
+  useEffect(() => {
+    localStorage.setItem("registrations", JSON.stringify(registrations));
+  }, [registrations]);
 
   return (
     <BrowserRouter>
