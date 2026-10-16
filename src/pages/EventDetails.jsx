@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedEvent, setLoading, setError } from "../store/eventsSlice";
 import { fetchEventById } from "../utils/ticketmaster";
+import { registerForEvent, cancelRegistration } from "../store/registrationsSlice";
 import "./EventDetails.css";
 
 function EventDetails() {
@@ -14,6 +15,12 @@ function EventDetails() {
   const loading = useSelector((state) => state.events.loading);
   const error = useSelector((state) => state.events.error);
   const currentUser = useSelector((state) => state.auth.currentUser);
+  const registrations = useSelector((state) => state.registrations);
+  const isRegistered = currentUser
+  ? registrations.some(
+      (r) => r.userEmail === currentUser.email && r.event.id === event?.id
+    )
+  : false;
 
   const [feedback, setFeedback] = useState("");
 
@@ -40,48 +47,46 @@ function EventDetails() {
   const ticketUrl = event.url;
 
   return (
-    <div className="event-details">
-      <button className="btn-back" onClick={() => navigate("/events")}>
-        ← Back to Events
-      </button>
-
-      {image && <img src={image.url} alt={event.name} style={{ marginTop: 16 }} />}
-
-      <h2>{event.name}</h2>
-
-      {date && <p className="event-info">📅 Date: {date} {time && `at ${time}`}</p>}
-      {venue && (
-        <>
-          <p className="event-info">🏟️ Venue: {venue.name}</p>
-          <p className="event-info">
-            📍 Location: {venue.address?.line1}, {venue.city?.name},{" "}
-            {venue.state?.name}, {venue.country?.name}
-          </p>
-        </>
-      )}
-      {category && <p className="event-info">🎭 Category: {category}</p>}
-
-      {event.info && <p className="event-info" style={{ marginTop: 12 }}>{event.info}</p>}
-
-      <div className="event-actions">
+          <div className="event-actions">
         {ticketUrl && (
           <a href={ticketUrl} target="_blank" rel="noreferrer">
             <button className="btn-register">Buy Tickets</button>
           </a>
         )}
-        {!currentUser && (
+        {currentUser ? (
+          isRegistered ? (
+            <button
+              className="btn-cancel"
+              onClick={() => {
+                dispatch(cancelRegistration({
+                  userEmail: currentUser.email,
+                  eventId: event.id,
+                }));
+                setFeedback("✅ Registration cancelled");
+              }}
+            >
+              Cancel Registration
+            </button>
+          ) : (
+            <button
+              className="btn-register"
+              onClick={() => {
+                dispatch(registerForEvent({
+                  userEmail: currentUser.email,
+                  event,
+                }));
+                setFeedback("✅ Successfully registered!");
+              }}
+            >
+              Register for Event
+            </button>
+          )
+        ) : (
           <button className="btn-back" onClick={() => navigate("/login")}>
             Log in to Register
           </button>
         )}
       </div>
-
-      {feedback && (
-        <p className={`feedback-msg ${feedback.startsWith("❌") ? "error" : ""}`}>
-          {feedback}
-        </p>
-      )}
-    </div>
   );
 }
 

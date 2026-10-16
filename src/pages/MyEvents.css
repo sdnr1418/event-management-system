@@ -1,0 +1,57 @@
+.my-events h2 { margin-bottom: 24px; }
+
+.my-events h3 {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 24px 0 12px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 6px;
+}
+
+.my-events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.my-event-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+.my-event-card.completed { opacity: 0.6; }
+
+.my-event-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.my-event-card-body { padding: 12px; }
+.my-event-card-body h4 { font-size: 0.95rem; margin-bottom: 6px; }
+.my-event-meta { font-size: 0.82rem; color: #555; margin-top: 3px; }
+
+.btn-cancel-small {
+  margin-top: 10px;
+  padding: 6px 14px;
+  background: #b42318;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-cancel-small:hover { background: #8a1a11; }
+.empty-msg { color: #888; margin-top: 8px; }
+
+.browse-events {
+  padding: 0;
+  color: #2d5bd3;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
