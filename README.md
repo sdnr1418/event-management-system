@@ -1,16 +1,71 @@
-# React + Vite
+# EventHub — Event Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + Redux Toolkit application built for Web Programming Assignment 2.
+Users can browse events from the Ticketmaster API, register for events, and manage their registrations.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19
+- Redux Toolkit (state management)
+- React Router v7 (client-side routing)
+- Ticketmaster Discovery API (event data)
+- Vite (build tool)
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- User registration, login, and logout (frontend simulation)
+- Auth state persisted in localStorage
+- Browse and search events from Ticketmaster
+- Filter by keyword, category, and city
+- View full event details
+- Register and cancel registration for events
+- My Events page with upcoming and completed sections
+- Protected routes (My Events requires login)
+- Responsive layout
 
-## Expanding the ESLint configuration
+## Security Note
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Authentication is a frontend-only simulation. Passwords are stored in plain text in localStorage. This is not suitable for production — a real app would use a backend with hashed passwords and JWT tokens.
+
+## Setup Instructions
+
+### 1. Clone the repository
+
+git clone https://github.com/sdnr1418/event-management-system.git
+cd event-management-system
+
+### 2. Install dependencies
+
+npm install
+
+### 3. Add your Ticketmaster API key
+
+Copy `.env.example` to `.env` and add your key:
+
+cp .env.example .env
+
+Then open `.env` and replace the placeholder:
+
+VITE_TM_API_KEY=your_consumer_key_here
+
+Get your free API key from: https://developer.ticketmaster.com/
+
+### 4. Run the development server
+
+npm run dev
+
+Open http://localhost:5173 in your browser.
+
+## Project Structure
+
+src/
+├── components/       Navbar, Layout, SearchFilters, FormInput, ProtectedRoute
+├── pages/            Events, EventDetails, Login, Register, MyEvents, NotFound
+├── store/            authSlice, eventsSlice, registrationsSlice, store.js
+└── utils/            ticketmaster.js (API calls), storage.js (localStorage helper)
+
+## API
+
+This project uses the Ticketmaster Discovery API v2.
+The Vite dev server proxies requests through `/tm-api` to avoid CORS issues.
+Default country is set to US. The free tier allows 5,000 requests/day.
